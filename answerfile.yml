@@ -1,0 +1,118 @@
+# Variables to be used for an automated NSX-T Deployment. #
+
+# Ansibe Variable 
+state_absent: "absent"
+state_present: "present"
+
+## ESXI and vCenter VARIABLES - INFRASTRUCTURE ##
+esxi_username: 'root'
+esxi_ip_address: ''
+esxi_infrastructure_fqdn: ''
+esxi_mgmt_01_fqdn: ''
+esxi_compute_01_fqdn: ''
+esxi_compute_02_fqdn: ''
+vcenter_username: ''
+vcenter_password: ''
+vcenter_virtual_machine_name: ''
+vcenter_hostname: ''
+vcenter_net_ip_address: ''
+vcenter_net_prefix: ''
+vcenter_net_gateway: ''
+vcenter_dns_servers: ''
+domain: ''
+searchpath: "nsxt_virtual_machine_name"
+vcsa_size: 'tiny'
+vcsa_ova_file: '/'
+datastore: ''
+esxi_network: 'VM Network'
+datacenter_name: ''
+vds_name: ''
+vcenter_cluster: ''
+cluster_name_edge: ''
+cluster_name_compute: ''
+host_folder_name_edge: ''
+host_folder_name_compute: ''
+vm_folder_name_infrastructure: ''
+vm_folder_name_nsx_infrastructure: ''
+vm_folder_name_tenant_01: 'COMPUTE-TENANT-01'
+vm_folder_name_tenant_02: 'COMPUTE-TENANT-02'
+
+
+## NSXT VARIABLES - DATA CENTER INFRASTRUCTURE ##
+nsxt_virtual_machine_name: "SRV-NSXT-MANAGER-01"
+nsxt_hostname: "srv-nsxt-manager-01"
+nsxt_ova_file: "" 
+nsxt_ova_size: "small"
+nsxt_port_group: ""
+nsxt_audit_user: "audit" 
+nsxt_admin_user: "admin"
+nsxt_password: ""
+nsxt_ip_address: ""
+nsxt_netmask: ""
+nsxt_gateway: ""
+nsxt_role: "NSX Manager"
+nsxt_datacenter: ""
+nsxt_vm_folder: ""
+nsxt_compute_manager_display_name: ""
+nsxt_compute_manager_origin_type: "vCenter"
+nsxt_compute_manager_credential_type: "UsernamePasswordLoginCredential"
+nsxt_validate_certs: False
+nsxt_license: ""
+
+## NSXT VARIABLES - INFRASTRUCTURE ##
+nsxt_transportzone_overlay_display_name: "TZ-Overlay"
+nsxt_transportzone_vlan_display_name: "TZ-VLAN"
+nsxt_edge_mtu: "9000"
+
+nsxt_ippool_tep_compute: "IPPool-IPV4-TEP-COMPUTE"
+nsxt_ippool_tep_edge: "IPPool-IPV4-TEP-EDGE"
+nsxt_named_teaming_policy_name_01: "TOR-1"
+nsxt_named_teaming_policy_name_02: "TOR-2"
+nsxt_teaming_policy_link01: "uplink-1"
+nsxt_teaming_policy_link02: "uplink-2"
+
+nsxt_transportnode_profile_name: "TNP-Compute"
+nsxt_uplink_teaming_policies: ["TOR-1", "TOR-2"]
+nsxt_edge_nvds_name: "EDGE-NVDS"
+nsxt_edge_DPG_data: "DPG-TRUNK"
+nsxt_edge_DPG_management: "DPG-VLAN100-MGMT-INFRASTRUCTURE"
+nsxt_edge_gateway: ""
+nsxt_edge_01_name: "-"
+nsxt_edge_02_name: "-"
+nsxt_edge_03_name: "-"
+nsxt_edge_04_name: "-"
+nsxt_edge_05_name: "-"
+nsxt_edge_01_display_name: ""
+nsxt_edge_02_display_name: ""
+nsxt_edge_03_display_name: ""
+nsxt_edge_04_display_name: ""
+nsxt_edge_05_display_name: ""
+nsxt_edge_06_display_name: ""
+nsxt_edge_01_ip: ""
+nsxt_edge_02_ip: ""
+nsxt_edge_03_ip: ""
+nsxt_edge_04_ip: ""
+nsxt_edge_05_ip: ""
+nsxt_edge_06_ip: ""
+nsxt_edge_cluster_01: ""
+nsxt_edge_cluster_02: ""
+nsxt_edge_cluster_03: ""
+
+nsxt_transportnode_esxi02: ""
+nsxt_transportnode_esxi02_ip: ""
+nsxt_transportnode_esxi03: ""
+nsxt_transportnode_esxi03_ip: ""
+nsxt_edge_data_networks_TOR_01: ""
+nsxt_edge_data_networks_TOR_02: ""
+
+## Cumulus - INFRASTRUCTURE ##
+
+vx_01_virtual_machine_name: "TOR-01"
+vx_02_virtual_machine_name: "TOR-02"
+vx_03_virtual_machine_name: "TOR-03"
+vx_04_virtual_machine_name: "TOR-04"
+vx_spine_virtual_machine_name: "TOR-SPINE"
+vx_ova_file: ''
+vx_management_port_group: ""
+vx_trunk_port_group: ""
+
