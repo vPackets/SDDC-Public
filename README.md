@@ -10,6 +10,10 @@ _**This disclaimer informs readers that the views, thoughts, and opinions expres
 
 The purpose of this entire repository is to automate the deployment of my NSX-T infrastructure in my lab.
 
+Before running the code, you need to fill all the variables in the answerfile.yml file. These variables are unique to your infrastructure.
+
+You also need to have a valid NSX-T license in order to deploy the edge node.
+
 ### Infrastructure Deployed
 
 This repository will deploy the following virtual machines:
@@ -31,51 +35,123 @@ This repository will configure the following on NSX-T:
 - NSX-T: Edge Clusters
 ____
 
-### Topology used
-
-There are multiple topologies used in this repository:
-
-#### Simple Topology
-
-This topology will deploy 2 T0 installed on 4 different edge nodes.
-
-
-Tenant 01:
-- 1x T0 will be installed on Edge node 01 and Edge node 02 [Edge Cluster 01]
-  - HA Mode: Active / Standby - Preemption
-  - No statefull services
-  - BGP Route Redistribution:
-    - no Prefix list
-    - T0: Redistributing Static routes
-    - T0: Redistributing Connected routes (Service Interface / Loopback / Router link / External Interface Subnet)
-    - T1: Redistributing Connected routes (Service Interface / Loopback / Router link / External Interface Subnet)
-  - Tenant 01 IPv4 and IPv6 Segments :
-    - Web: 10.1.1.0/24 - beef:0010:0001:0001::/64
-    - App: 10.1.2.0/24 - beef:0010:0001:0002::/64
-    - DB : 10.1.3.0/24 - beef:0010:0001:0003::/64
- 
-
-
-Tenant 02:
-- 1x T0 will be installed on Edge node 03 and Edge node 04 [Edge Cluster 02]
-  - HA Mode: Active / Active
-  - No statefull services
-  - BGP Route Redistribution:
-    - no Prefix list
-    - T0: Redistributing Static routes
-    - T0: Redistributing Connected routes (Service Interface / Loopback / Router link / External Interface Subnet)
-    - T1: Redistributing Connected routes (Service Interface / Loopback / Router link / External Interface Subnet)
-  - Tenant 01 IPv4 and IPv6 Segments :
-    - Web: 10.1.1.0/24 - beef:0010:0001:0001::/64
-    - App: 10.1.2.0/24 - beef:0010:0001:0002::/64
-    - DB : 10.1.3.0/24 - beef:0010:0001:0003::/64
- 
 
 
 ### Code Tree
 
 
 -----
+.
+├── README.md
+├── deploy.yml
+├── playbooks
+│   ├── 01-deploy-nsxtmanager.yml
+│   ├── 02-configure-compute-manager.yml
+│   ├── 03-configure-nsxtmanager-license.yml
+│   ├── 04-configure-nsxtmanager-uplinkprofiles.yml
+│   ├── 05-configure-nsxtmanager-ippools.yml
+│   ├── 06-configure-nsxtmanager-transportzones.yml
+│   ├── 07-configure-nsxtmanager-transportnodesprofiles.yml
+│   ├── 08-configure-nsxtmanager-transportnodes.yml
+│   ├── 09-deploy-edgenodes.yml
+│   ├── 10-configure-nsxtmanager-edgeclusters.yml
+│   ├── 11-deploy-cumulus.yml
+│   ├── 95-delete-nsxtmanager-edgeclusters.yml
+│   ├── 96-delete-edgenodes.yml
+│   ├── 97-unconfigure-nsxtmanager-transport-collections.yml
+│   ├── 98-unconfigure-nsxtmanager-transportnodes.yml
+│   ├── 99-unconfigure-compute-manager.yml
+│   ├── library
+│   │   ├── __init__.py
+│   │   ├── nsxt_accept_eula.py
+│   │   ├── nsxt_certificates.py
+│   │   ├── nsxt_certificates_facts.py
+│   │   ├── nsxt_compute_collection_fabric_templates.py
+│   │   ├── nsxt_compute_collection_fabric_templates_facts.py
+│   │   ├── nsxt_compute_collection_transport_templates.py
+│   │   ├── nsxt_compute_collection_transport_templates_facts.py
+│   │   ├── nsxt_deploy_ova.py
+│   │   ├── nsxt_edge_clusters.py
+│   │   ├── nsxt_edge_clusters_facts.py
+│   │   ├── nsxt_fabric_compute_managers.py
+│   │   ├── nsxt_fabric_compute_managers_facts.py
+│   │   ├── nsxt_fabric_nodes.py
+│   │   ├── nsxt_fabric_nodes_facts.py
+│   │   ├── nsxt_ip_blocks.py
+│   │   ├── nsxt_ip_blocks_facts.py
+│   │   ├── nsxt_ip_pools.py
+│   │   ├── nsxt_ip_pools_facts.py
+│   │   ├── nsxt_licenses.py
+│   │   ├── nsxt_licenses_facts.py
+│   │   ├── nsxt_logical_ports.py
+│   │   ├── nsxt_logical_ports_facts.py
+│   │   ├── nsxt_logical_router_ports.py
+│   │   ├── nsxt_logical_router_ports_facts.py
+│   │   ├── nsxt_logical_router_static_routes.py
+│   │   ├── nsxt_logical_routers.py
+│   │   ├── nsxt_logical_routers_facts.py
+│   │   ├── nsxt_logical_switches.py
+│   │   ├── nsxt_logical_switches_facts.py
+│   │   ├── nsxt_manager_auto_deployment.py
+│   │   ├── nsxt_manager_auto_deployment_facts.py
+│   │   ├── nsxt_manager_status.py
+│   │   ├── nsxt_policy_bfd_config.py
+│   │   ├── nsxt_policy_gateway_policy.py
+│   │   ├── nsxt_policy_group.py
+│   │   ├── nsxt_policy_ip_block.py
+│   │   ├── nsxt_policy_ip_pool.py
+│   │   ├── nsxt_policy_security_policy.py
+│   │   ├── nsxt_policy_segment.py
+│   │   ├── nsxt_policy_tier0.py
+│   │   ├── nsxt_policy_tier1.py
+│   │   ├── nsxt_principal_identities.py
+│   │   ├── nsxt_principal_identities_facts.py
+│   │   ├── nsxt_repo_sync.py
+│   │   ├── nsxt_repo_sync_facts.py
+│   │   ├── nsxt_route_advertise.py
+│   │   ├── nsxt_transport_node_collections.py
+│   │   ├── nsxt_transport_node_collections_facts.py
+│   │   ├── nsxt_transport_node_profiles.py
+│   │   ├── nsxt_transport_node_profiles_facts.py
+│   │   ├── nsxt_transport_nodes.py
+│   │   ├── nsxt_transport_nodes_facts.py
+│   │   ├── nsxt_transport_zones.py
+│   │   ├── nsxt_transport_zones_facts.py
+│   │   ├── nsxt_upgrade_eula_accept.py
+│   │   ├── nsxt_upgrade_eula_accept_facts.py
+│   │   ├── nsxt_upgrade_groups.py
+│   │   ├── nsxt_upgrade_groups_facts.py
+│   │   ├── nsxt_upgrade_history.py
+│   │   ├── nsxt_upgrade_plan.py
+│   │   ├── nsxt_upgrade_plan_facts.py
+│   │   ├── nsxt_upgrade_postchecks.py
+│   │   ├── nsxt_upgrade_pre_post_checks_facts.py
+│   │   ├── nsxt_upgrade_prechecks.py
+│   │   ├── nsxt_upgrade_run.py
+│   │   ├── nsxt_upgrade_status_summary_facts.py
+│   │   ├── nsxt_upgrade_uc.py
+│   │   ├── nsxt_upgrade_uc_facts.py
+│   │   ├── nsxt_upgrade_upload_mub.py
+│   │   ├── nsxt_upgrade_upload_mub_facts.py
+│   │   ├── nsxt_uplink_profiles.py
+│   │   ├── nsxt_uplink_profiles_facts.py
+│   │   ├── nsxt_virtual_ip.py
+│   │   ├── nsxt_virtual_ip_facts.py
+│   │   └── nsxt_vm_tags.py
+│   ├── module_utils
+│   │   ├── __init__.py
+│   │   ├── common_utils.py
+│   │   ├── nsxt_base_resource.py
+│   │   ├── nsxt_resource_urls.py
+│   │   ├── policy_communicator.py
+│   │   ├── policy_resource_specs
+│   │   │   ├── __init__.py
+│   │   │   └── security_policy.py
+│   │   ├── vcenter_utils.py
+│   │   └── vmware_nsxt.py
+│   └── plugins
+│       └── doc_fragments
+│           └── vmware_nsxt.py
 -----
 
 
